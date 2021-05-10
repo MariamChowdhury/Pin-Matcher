@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" id="input-box" type="text">
+                    <button class="generate-btn" onclick="generatePin()">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input id='calc-screen' class="form-control" type="text">
+                    <div class="numbers">
+                        <div id='calculator-container' class="calc-body">
+                            <div class="calc-button-row">
+                                <div class="button">7</div>
+                                <div class="button">8</div>
+                                <div class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">4</div>
+                                <div class="button">5</div>
+                                <div class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">1</div>
+                                <div class="button">2</div>
+                                <div class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div class="button">X</div>
+                                <div class="button">0</div>
+                                <div id="cancel" class="button">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" onclick="checkPin()" class="submit-btn">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="notify-section">
+                <p id="incorrect-pin" class="notify">❌ Pin Didn't Match, Please try again</p>
+                <p id="correct-pin" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            </div>
+        </div>
+        <script>
+            const generateRandomNumber = () => {
+                let number = (Math.random() * 10000 + '').split('.')[0];
+                if (number.length === 4) {
+                    document.getElementById('input-box').value = number
+                }
+                else {
+                    number = (Math.random() * 10000 + '').split('.')[0];
+                    document.getElementById('input-box').value = number
+                }
+            }
+            const generatePin = () => {
+                generateRandomNumber();
+
+            }
+            const buttonContainer = document.getElementById('calculator-container')
+            buttonContainer.addEventListener('click', function (event) {
+                const digit = (event.target.innerText);
+                if (isNaN(digit)) {
+                    if (digit === 'C') {
+                        const inputOnScreen = document.getElementById('calc-screen');
+                        inputOnScreen.value = ''
+                    }
+
+
+                }
+                else {
+                    const inputOnScreen = document.getElementById('calc-screen');
+                    inputOnScreen.value = inputOnScreen.value + digit;
+                }
+            })
+            const checkPin = () => {
+                const generatedPin = document.getElementById('input-box').value;
+                const inputPin = document.getElementById('calc-screen').value;
+                if (generatedPin === inputPin) {
+                    const correct = document.getElementById('correct-pin')
+                    correct.style.display = 'block'
+                    const incorrect = document.getElementById('incorrect-pin')
+                    incorrect.style.display = 'none'
+
+                }
+                else {
+                    const incorrect = document.getElementById('incorrect-pin')
+                    incorrect.style.display = 'block'
+                    const correct = document.getElementById('correct-pin')
+                    correct.style.display = 'none'
+                }
+            }
+        </script>
+</body>
+
+</html>
